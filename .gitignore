@@ -7,3 +7,7 @@ __pycache__/
 
 # VSCode (optional, if you use it)
 .vscode/
+
+# Ignore everything in the data/ folder
+/data/*
+!/data/.gitkeep
