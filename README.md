@@ -27,7 +27,7 @@ A Python-powered system that captures player behavior from Minecraft Education E
 4. **AI-Powered Assessment** (`assessment.py`)  
    A script that connects to Azure AI to analyze player behavior and provide insights:
    - Requires an Azure API key and endpoint
-   - Generates advanced analytics like sentiment analysis on chat messages or player engagement scores
+   - Generates advanced analytics
 
 ---
 
