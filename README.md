@@ -2,6 +2,41 @@
 
 A Python-powered system that captures player behavior from Minecraft Education Edition and visualizes it in real time using charts, maps, and live tracking interfaces.
 
+### 📜 License
+
+This project is licensed under the MIT License. See the full license text below:
+
+```
+MIT License
+
+Copyright (c) 2025 Justin Edwards
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+---
+
+### ✍️ Author
+
+Created by **Justin Edwards**  
+📧 Email: [jnredwards@gmail.com](mailto:jnredwards@gmail.com)
+
 ---
 
 ### 📦 What's Included
@@ -63,20 +98,29 @@ To use `assessment.py`, you need an Azure AI API key and endpoint:
 1. Go to the [Azure Portal](https://portal.azure.com/).
 2. Create a new resource for "Cognitive Services" or "Text Analytics."
 3. Copy the **API Key** and **Endpoint** from the resource's "Keys and Endpoint" section.
-4. Add these to a `.env` file in the project root:
+4. Set these as environment variables in your system:
 
-   ```env
-   AZURE_API_KEY=your_api_key_here
-   AZURE_ENDPOINT=https://your_endpoint_here
-   ```
+  ```bash
+  export AZURE_API_KEY=your_api_key_here
+  export AZURE_ENDPOINT=https://your_endpoint_here
+  ```
+
+  On Windows, use:
+
+  ```cmd
+  set AZURE_API_KEY=your_api_key_here
+  set AZURE_ENDPOINT=https://your_endpoint_here
+  ```
 
 ---
 
 ### 🚀 Running the Server
 
 ```bash
-python main.py
+python run.py
 ```
+
+This script will activate the virtual environment (if configured) and start the WebSocket server.
 
 - Listens on port `19131`
 - Creates a new JSON file like `events_2025-03-28T10-05-22.json` in `/data`
@@ -116,11 +160,10 @@ python monitor.py
 python assessment.py
 ```
 
-- Requires a `.json` event file from `/data`
-- Uses Azure AI to analyze:
-  - Sentiment of chat messages
-  - Player engagement metrics
-- Outputs results to the console or a new file in `/data`
+- Prompts the user to input assessment criteria (e.g., minimum engagement score, sentiment thresholds).
+- Requires a `.json` event file from `/data`.
+- Compares player data against the provided criteria.
+- Outputs results to the console or saves them to a new file in `/data`.
 
 ---
 
@@ -164,19 +207,8 @@ minecraft_wsserver/
 ├── monitor.py            # Live player tracker
 ├── assessment.py         # AI-powered analysis
 ├── data/                 # JSON logs saved here
-├── .env                  # Azure API key and endpoint
 └── README.md             # This file
 ```
-
----
-
-### 💡 Ideas for Extensions
-
-- Add region-specific analytics (like time spent near 0,0)
-- Export reports to PDF/CSV
-- Add interactive map using a GUI canvas
-- Real-time dashboard with Flask + WebSockets
-- Integrate more Azure AI services (e.g., language translation, anomaly detection)
 
 ---
 
