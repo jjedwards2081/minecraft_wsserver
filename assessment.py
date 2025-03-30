@@ -223,6 +223,14 @@ class PlayerAssessmentApp:
         heat_canvas.draw()
         heat_canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
 
+    def load_prompt(self, filename):
+        """Load a prompt from a text file."""
+        try:
+            with open(filename, "r") as file:
+                return file.read().strip()
+        except FileNotFoundError:
+            return f"Error: {filename} not found."
+
     def run_assessment(self):
         """Process the 'Assessment Requirements' text using Azure AI."""
         assessment_text = self.assessment_text.get("1.0", tk.END).strip()
@@ -233,13 +241,17 @@ class PlayerAssessmentApp:
             self.criteria_text.config(state="disabled")
             return
 
+        # Load prompts dynamically
+        system_prompt = self.load_prompt("system_prompt.txt")
+        criteria_prompt = self.load_prompt("criteria_prompt.txt")
+
         try:
             # Send the assessment text to Azure OpenAI
             response = self.azure_client.chat.completions.create(
                 model="gpt-4o",  # Replace with your deployment name
                 messages=[
-                    {"role": "system", "content": "You are an AI assistant that generates criteria or rubrics based on assessment requirements."},
-                    {"role": "user", "content": assessment_text}
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": f"{criteria_prompt}\n\n{assessment_text}"}
                 ]
             )
 
@@ -282,13 +294,17 @@ class PlayerAssessmentApp:
         # Get the JSON data for the selected player
         player_data = self.player_data[selected_player]
 
+        # Load prompts dynamically
+        system_prompt = self.load_prompt("system_prompt.txt")
+        assessment_prompt = self.load_prompt("assessment_prompt.txt")
+
         try:
             # Send the player data and criteria to Azure OpenAI
             response = self.azure_client.chat.completions.create(
                 model="gpt-4o",  # Replace with your deployment name
                 messages=[
-                    {"role": "system", "content": "You are an AI assistant that assesses Minecraft player data against a given criteria or rubric."},
-                    {"role": "user", "content": f"Criteria: {criteria_text}\n\nPlayer Data: {json.dumps(player_data)}"}
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": f"{assessment_prompt}\n\nCriteria: {criteria_text}\n\nPlayer Data: {json.dumps(player_data)}"}
                 ]
             )
 
