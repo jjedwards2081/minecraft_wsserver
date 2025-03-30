@@ -1,13 +1,13 @@
+import os
+from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, filedialog
 import json
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from collections import defaultdict, Counter
-from pathlib import Path
 import math
 from openai import AzureOpenAI
-import os
 from matplotlib.backends.backend_pdf import PdfPages  # Import for PDF export
 
 class PlayerAssessmentApp:
@@ -22,6 +22,8 @@ class PlayerAssessmentApp:
             api_version="2024-10-21",  # Use the correct API version
             azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")  # Set your endpoint in environment variables
         )
+
+        self.prompts_dir = Path(__file__).parent / "prompts"  # Path to the /prompts directory
 
         self.events = []
         self.player_data = defaultdict(lambda: {
@@ -224,12 +226,13 @@ class PlayerAssessmentApp:
         heat_canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
 
     def load_prompt(self, filename):
-        """Load a prompt from a text file."""
+        """Load a prompt from a text file in the /prompts directory."""
+        prompt_path = self.prompts_dir / filename
         try:
-            with open(filename, "r") as file:
+            with open(prompt_path, "r") as file:
                 return file.read().strip()
         except FileNotFoundError:
-            return f"Error: {filename} not found."
+            return f"Error: {filename} not found in {self.prompts_dir}"
 
     def run_assessment(self):
         """Process the 'Assessment Requirements' text using Azure AI."""
