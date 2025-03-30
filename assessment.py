@@ -74,23 +74,23 @@ class PlayerAssessmentApp:
         # Text box 1: Assessment Requirements
         self.assessment_label = ttk.Label(text_box_frame, text="Assessment Requirements")
         self.assessment_label.pack(pady=5)
-        self.assessment_text = tk.Text(text_box_frame, height=10, width=40)
+        self.assessment_text = tk.Text(text_box_frame, height=9, width=50)  # Reduced height by 1
         self.assessment_text.pack(pady=5)
-        self.run_button = ttk.Button(text_box_frame, text="Run", command=self.run_assessment)
+        self.run_button = ttk.Button(text_box_frame, text="Create Rubric", command=self.run_assessment)
         self.run_button.pack(pady=5)
 
         # Text box 2: Criteria / Rubric
         self.criteria_label = ttk.Label(text_box_frame, text="Criteria / Rubric")
         self.criteria_label.pack(pady=5)
-        self.criteria_text = tk.Text(text_box_frame, height=10, width=40)
+        self.criteria_text = tk.Text(text_box_frame, height=9, width=50)  # Reduced height by 1
         self.criteria_text.pack(pady=5)
-        self.accept_button = ttk.Button(text_box_frame, text="Accept", command=self.accept_criteria, state="disabled")
+        self.accept_button = ttk.Button(text_box_frame, text="Review", command=self.accept_criteria, state="disabled")
         self.accept_button.pack(pady=5)
 
         # Text box 3: Result
         self.result_label = ttk.Label(text_box_frame, text="Result")
         self.result_label.pack(pady=5)
-        self.result_text = tk.Text(text_box_frame, height=10, width=40, state="disabled")
+        self.result_text = tk.Text(text_box_frame, height=9, width=50, state="disabled")  # Reduced height by 1
         self.result_text.pack(pady=5)
         self.pdf_button = ttk.Button(text_box_frame, text="Export to PDF", command=self.export_to_pdf)
         self.pdf_button.pack(pady=5)
@@ -349,6 +349,27 @@ class PlayerAssessmentApp:
                 ax.axis("off")  # Turn off the axis
                 ax.text(0.5, 0.9, f"Assessment of Player: {selected_player}", fontsize=16, ha="center", va="center")
                 pdf.savefig(fig)
+                # Add a subheader on the same page as the header
+                subheader_path = Path(__file__).parent / "pdf_items" / "subheader_statement_text.txt"
+                try:
+                    with open(subheader_path, "r") as file:
+                        subheader_text = file.read().strip()
+                except FileNotFoundError:
+                    subheader_text = "Subheader statement not found."
+
+                # Add header and subheader to the same page
+                fig, ax = plt.subplots(figsize=(8.5, 11))  # Standard letter size
+                ax.axis("off")  # Turn off the axis
+                ax.text(0.1, 0.9, f"Assessment of Player: {selected_player}", fontsize=16, ha="left", va="top")
+                ax.text(0.1, 0.8, subheader_text, fontsize=14, ha="left", va="top", wrap=True)
+                pdf.savefig(fig)
+                plt.close(fig)
+
+                fig, ax = plt.subplots(figsize=(8.5, 11))  # Standard letter size
+                ax.axis("off")  # Turn off the axis
+                ax.text(0.5, 0.8, subheader_text, fontsize=14, ha="center", va="center", wrap=True)
+                pdf.savefig(fig)
+                plt.close(fig)
                 plt.close(fig)
 
                 # Add the graphs
