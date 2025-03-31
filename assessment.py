@@ -345,9 +345,9 @@ class PlayerAssessmentApp:
         try:
             with PdfPages(file_path) as pdf:
                 # Add a header page
-                fig, ax = plt.subplots(figsize=(8.5, 11))  # Standard letter size
+                fig, ax = plt.subplots(figsize=(8.27, 11.69))  # A4 size in inches
                 ax.axis("off")  # Turn off the axis
-                ax.text(0.5, 0.9, f"Assessment of Player: {selected_player}", fontsize=16, ha="center", va="center")
+                ax.text(0.1, 0.9, f"Assessment of Player: {selected_player}", fontsize=16, ha="left", va="top")
                 pdf.savefig(fig)
                 # Add a subheader on the same page as the header
                 subheader_path = Path(__file__).parent / "pdf_items" / "subheader_statement_text.txt"

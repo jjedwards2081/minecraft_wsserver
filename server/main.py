@@ -102,13 +102,13 @@ async def handler(websocket):
 async def main():
     # Fetch the local IP address of the server
     local_ip = get_local_ip()
-    server_url = f"To connect, type in Minecraft chat: /connect {local_ip}:19131"
+    server_url = f"To connect, type in Minecraft chat: /connect {local_ip}:8080"
     
     log_message(f"🌐 Server starting on {server_url}")
     log_message(f"🗃️  Events will be logged to: {DATA_FILE}")
     
     # Start WebSocket server
-    server = await websockets.serve(handler, local_ip, 19131)
+    server = await websockets.serve(handler, local_ip, 8080)
 
     # Set up signal handling for graceful exit
     loop = asyncio.get_event_loop()
