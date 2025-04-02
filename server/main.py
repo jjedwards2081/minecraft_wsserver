@@ -104,8 +104,8 @@ async def main():
     local_ip = get_local_ip()
     server_url = f"To connect, type in Minecraft chat: /connect {local_ip}:19131"
     
-    log_message(f"🌐 Server starting on {server_url}")
-    log_message(f"🗃️  Events will be logged to: {DATA_FILE}")
+    log_message(f"Server starting on {server_url}")
+    log_message(f"Events will be logged to: {DATA_FILE}")
     
     # Start WebSocket server
     server = await websockets.serve(handler, local_ip, 19131)
